@@ -21,3 +21,17 @@ spotifyApi.clientCredentialsGrant()
   }, function(err) {
     console.log('Something went wrong when retrieving an access token', err);
 });
+
+app.use((req, res, next) => {
+  res.status(404);
+  res.send('not-found');
+});
+
+app.use((err, req, res, next) => {
+  console.error('ERROR', req.method, req.path, err);
+
+  if (!res.headersSent) {
+    res.status(500);
+    res.send('error');
+  }
+});
